@@ -32,4 +32,9 @@ public class UserController {
     public User updateUser(@RequestBody User user) throws Exception{
         return userService.updateUser(user);
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable Integer id){
+        return userService.deleteUser(id);
+    }
 }

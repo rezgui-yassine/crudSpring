@@ -16,15 +16,14 @@ public class UserService {
     private RepoUser repoUser;
 
     // create method for get all users
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         try {
-            if (repoUser.findAll().isEmpty()){
+            if (repoUser.findAll().isEmpty()) {
                 return null;
-            }
-            else {
+            } else {
                 return repoUser.findAll();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -70,4 +69,14 @@ public class UserService {
     }
 
 
+    public String deleteUser(Integer id) throws Exception {
+        if (repoUser.existsById(id)) {
+            repoUser.deleteById(id);
+            return "User deleted successfully";
+
+        } else {
+            throw new Exception("User not found with id: " + id);
+        }
     }
+
+}
