@@ -4,6 +4,7 @@ package com.crudSpringboot.crudProject.controller;
 import com.crudSpringboot.crudProject.model.User;
 import com.crudSpringboot.crudProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class UserController {
     public List<User> displayStudents() {
         return userService.getAllUsers();
     }
+    /*@GetMapping("/users")
+    public ResponseEntity<List<User>> displayStudents() {
+        return ResponseEntity.ok().body(userService.getAllUsers());
+    }*/
 
     @GetMapping("/user/{id}")
     public User displayUserById(@PathVariable Integer id) {
@@ -34,7 +39,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable Integer id){
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) throws Exception {
         return userService.deleteUser(id);
     }
 }

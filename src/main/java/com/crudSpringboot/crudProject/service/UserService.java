@@ -4,6 +4,7 @@ package com.crudSpringboot.crudProject.service;
 import com.crudSpringboot.crudProject.model.User;
 import com.crudSpringboot.crudProject.repository.RepoUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,10 +70,10 @@ public class UserService {
     }
 
 
-    public String deleteUser(Integer id) throws Exception {
+    public ResponseEntity<String> deleteUser(Integer id) throws Exception {
         if (repoUser.existsById(id)) {
             repoUser.deleteById(id);
-            return "User deleted successfully";
+            return ResponseEntity.ok().body("User deleted successfully");
 
         } else {
             throw new Exception("User not found with id: " + id);
