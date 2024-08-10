@@ -1,6 +1,7 @@
 package com.crudSpringboot.crudProject.service;
 
 
+import com.crudSpringboot.crudProject.dto.UserDto;
 import com.crudSpringboot.crudProject.model.User;
 import com.crudSpringboot.crudProject.repository.RepoUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -32,15 +34,21 @@ public class UserService {
     }
 
 
-    public User getStudentById(Integer id) {
-        return repoUser.findById(id).orElse(null);
+    public UserDto getStudentById(Integer id) {
+        Optional<User> user = this.repoUser.findById(id);
+        if (user.isPresent()){
+            return UserDto.fromEntity(user.get());
+        }
+        else {
+            return null;
+        }
     }
 
-    public User addUser(User user) throws Exception {
+    public UserDto addUser(User user) throws Exception {
         if (repoUser.existsByUsername(user.getUsername())) {
             throw new Exception("Username already exists");
         } else {
-            return repoUser.save(user);
+            return UserDto.fromEntity(repoUser.save(user));
         }
     }
 
@@ -57,7 +65,7 @@ public class UserService {
         return user1;
     }*/
 
-    public User updateUser(User user) throws Exception {
+    public UserDto updateUser(User user) throws Exception {
         User existingUser = repoUser.findById(user.getId())
                 .orElseThrow(() -> new Exception("User not found with id: " + user.getId()));
 
@@ -66,7 +74,7 @@ public class UserService {
         existingUser.setPassword(user.getPassword());
         existingUser.setAvatar(user.getAvatar());
 
-        return repoUser.save(existingUser);
+        return UserDto.fromEntity((repoUser.save(existingUser)));
     }
 
 
